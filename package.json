@@ -1,6 +1,6 @@
 {
   "name": "selldone-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "It's for ecommerce developers.Use this CLI to deploy your custom storefront layout to Selldone.",
   "main": "deploy.mjs",
   "type": "module",
@@ -20,11 +20,11 @@
   ],
   "author": "Mehrdad Pajuhaan <mehrdad@selldone.com> (https://pajuhaan.com)",
   "bugs": {
-    "url": "https://github.com/selldone/storefront/issues"
+    "url": "https://github.com/selldone/cli/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/selldone/selldone-cli.git"
+    "url": "git+https://github.com/selldone/cli.git"
   },
   "homepage": "https://selldone.com",
   "license": "ISC",

@@ -37,6 +37,7 @@ and requires a basic understanding of JavaScript and command-line operations.
 ```shell
 npm install -g selldone-cli
 ```
+or install locally: `npm install selldone-cli --save-dev` or `yarn add selldone-cli --dev`
 
 ### Local installation (Dev mode)
 
