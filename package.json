@@ -1,0 +1,41 @@
+{
+  "name": "Selldone-CLI",
+  "version": "1.0.0",
+  "description": "It's for ecommerce developers.Use this CLI to deploy your custom storefront layout to Selldone.",
+  "main": "deploy.mjs",
+  "scripts": {
+    "start": "node deploy.mjs"
+  },
+  "bin": {
+    "selldone deploy": "./deploy.mjs"
+  },
+  "keywords": [
+    "e-commerce",
+    "webstore",
+    "online shopping",
+    "selldone",
+    "storefront",
+    "vue"
+  ],
+  "author": "Mehrdad Pajuhaan <mehrdad@selldone.com> (https://pajuhaan.com)",
+  "bugs": {
+    "url": "https://github.com/selldone/storefront/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/selldone/selldone-cli.git"
+  },
+  "homepage": "https://selldone.com",
+
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^6.0.1",
+    "form-data": "^4.0.0",
+    "node-fetch": "^3.3.2",
+    "open": "^9.1.0"
+
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
