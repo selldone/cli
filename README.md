@@ -27,7 +27,7 @@ Before using `deploy.mjs`, ensure that you have Node.js installed on your system
 npm install -g selldone-cli
 ```
 
-### Local instalation (Dev mode)
+### Local installation (Dev mode)
 ```shell
 npm uninstall -g selldone-cli
 npm install -g .

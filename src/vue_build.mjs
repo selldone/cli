@@ -15,7 +15,7 @@
 import {Authentication} from "./authentication.mjs";
 import Config from "./config.mjs";
 import {execSync} from "child_process";
-import {SCRIPT_AGENT} from "./package.mjs";
+import {Package} from "./package.mjs";
 import Manifest from "./manifest.mjs";
 import Zip from "./zip.mjs";
 
@@ -57,7 +57,7 @@ export default class VueBuild {
         try {
             console.log('▶  Building Vue project...');
 
-            const stdout = execSync(`${SCRIPT_AGENT} run build-production`, {encoding: 'utf-8'});
+            const stdout = execSync(`${await Package.GetPackageManager()} run build-production`, {encoding: 'utf-8'});
             console.log('Build stdout:', stdout);
             console.log('✅  Vue project built successfully.');
 

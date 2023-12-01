@@ -14,38 +14,44 @@
 
 import inquirer from 'inquirer';
 
+export class Package {
+    // ━━━━━━━━━━━━━━━━━━━━━━ Detect yarn / npm ━━━━━━━━━━━━━━━━━━━━━━
+
+     static SCRIPT_AGENT = null;
+    static async GetPackageManager() {
+        if(this.SCRIPT_AGENT) return this.SCRIPT_AGENT;
+        return this.SCRIPT_AGENT=await Package.getPackageManagerAsync();
+    }
+
 // ━━━━━━━━━━━━━━━━━━━━━━ Detect yarn / npm ━━━━━━━━━━━━━━━━━━━━━━
 
-export const SCRIPT_AGENT = await getPackageManager();
+    static  getPackageManagerAsync() {
+        return new Promise(async (resolve, reject) => {
+            const userAgent = process.env.npm_config_user_agent;
 
-// ━━━━━━━━━━━━━━━━━━━━━━ Detect yarn / npm ━━━━━━━━━━━━━━━━━━━━━━
-
- export function getPackageManager() {
-    return new Promise(async (resolve, reject) => {
-        const userAgent = process.env.npm_config_user_agent;
-
-        if (userAgent) {
-            if (userAgent.startsWith('yarn')) {
-                return resolve('yarn');
-            } else if (userAgent.startsWith('npm')) {
-                return resolve('npm');
+            if (userAgent) {
+                if (userAgent.startsWith('yarn')) {
+                    return resolve('yarn');
+                } else if (userAgent.startsWith('npm')) {
+                    return resolve('npm');
+                }
             }
-        }
-        // Prompt the user to choose between npm and yarn
+            // Prompt the user to choose between npm and yarn
 
-        const response = await inquirer.prompt([
-            {
-                type: 'list',
-                name: 'packageManager',
-                message: 'Unable to detect package manager. Please choose (npm/yarn):',
-                choices: ['npm','yarn' ],
-                default:'yarn'
-            }
-        ]);
+            const response = await inquirer.prompt([
+                {
+                    type: 'list',
+                    name: 'packageManager',
+                    message: 'Unable to detect package manager. Please choose (npm/yarn):',
+                    choices: ['npm','yarn' ],
+                    default:'yarn'
+                }
+            ]);
 
-        console.log(`You selected: ${response.packageManager}`);
-        resolve(response.packageManager);
-    });
+            console.log(`You selected: ${response.packageManager}`);
+            resolve(response.packageManager);
+        });
 
 
+    }
 }

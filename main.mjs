@@ -15,18 +15,82 @@
  */
 
 
-
 import yargs from 'yargs';
 import {hideBin} from 'yargs/helpers';
+import inquirer from 'inquirer';
+import Config from "./src/config.mjs";
+import {Authentication} from "./src/authentication.mjs";
 
-// Define your commands using yargs
-yargs(hideBin(process.argv))
-    .command('deploy', 'Build and deploy your VUe storefront project [Layout].', async () => {
-        // Dynamically import the xxx.mjs module and execute it
-        const deploy = await import('./deploy.mjs');
-        await deploy.default(); // Assuming the xxx.mjs exports a default function
 
+const COMMAND_DEPLOY = 'deploy';
+const COMMAND_LOGOUT = 'logout';
+const COMMAND_EXIT = 'exit';
+
+async function promptForCommand() {
+    const response = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'commandToRun',
+            message: 'Please select a command:',
+            choices: [
+                {value: COMMAND_DEPLOY, name: "Deploy | Build and upload your Vue storefront layout to selldone."},
+                ...(Authentication.getAccessToken() ? [{
+                    value: COMMAND_LOGOUT,
+                    name: "Logout | Remove access token from your computer."
+                }] : []),
+                {value: COMMAND_EXIT, name: "Exit"}],
+            default: COMMAND_DEPLOY
+        }
+    ]);
+
+    console.log(`You selected: ${response.commandToRun}`);
+    return response.commandToRun;
+}
+
+async function runCommand(command) {
+    switch (command) {
+        case COMMAND_DEPLOY:
+            const deploy = await import('./deploy.mjs');
+            await deploy.default();
+            break;
+        case COMMAND_LOGOUT:
+            Authentication.logout()
+            process.exit(0);
+            break;
+        case COMMAND_EXIT:
+            process.exit(0);
+            break;
+        // Handle other commands here
+        default:
+            console.log(`Command '${command}' is not recognized.`);
+            break;
+    }
+}
+
+console.log("");
+console.log("▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆");
+console.log("🪅  Selldone® Business OS™ Storefront Project");
+console.log("The #1 operating system for fast-growing companies.");
+console.log("Visit: https://selldone.com");
+console.log("▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆");
+console.log("");
+
+// Set up yargs
+const argv = yargs(hideBin(process.argv))
+    .command('deploy', 'Build and deploy your Vue storefront project [Layout].', async () => {
+        await runCommand('deploy');
     })
-    .demandCommand(1, 'You need at least one command before moving on!')
     .parse();
 
+let DEBUG = argv.debug;
+if (DEBUG) {
+    Config.InitDebugMode();
+    console.log("DEBUG MODE ENABLED!\n");
+}
+
+
+// If no command provided, show the prompt
+if (argv._ && !argv._.length) {
+    const commandToRun = await promptForCommand();
+    await runCommand(commandToRun);
+}

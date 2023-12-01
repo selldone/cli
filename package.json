@@ -1,6 +1,6 @@
 {
   "name": "selldone-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "It's for ecommerce developers.Use this CLI to deploy your custom storefront layout to Selldone.",
   "main": "deploy.mjs",
   "type": "module",
@@ -8,7 +8,7 @@
     "deploy": "node main.mjs"
   },
   "bin": {
-    "sd": "main.mjs"
+    "selldone": "main.mjs"
   },
   "keywords": [
     "e-commerce",

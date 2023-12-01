@@ -19,12 +19,10 @@
 import {Authentication} from "./src/authentication.mjs";
 import VueBuild from "./src/vue_build.mjs";
 
-
-console.log("▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆");
-console.log("🪅  Build Selldone® Business OS™ Storefront Project");
-console.log("The #1 operating system for fast-growing companies. ");
-console.log("▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆");
 console.log("");
+console.log("✨  Start building Selldone® Business OS™ Storefront Layout...");
+console.log("");
+
 
 
 export default async function () {
