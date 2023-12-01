@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*
  * Copyright (c) 2023. Selldone® Business OS™
  *
@@ -12,7 +14,7 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-#!/usr/bin/env node
+
 
 import yargs from 'yargs';
 import {hideBin} from 'yargs/helpers';

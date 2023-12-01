@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*
  * Copyright (c) 2023. Selldone® Business OS™
  *
@@ -12,7 +14,6 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-#!/usr/bin/env node
 
 
 import {Authentication} from "./src/authentication.mjs";
