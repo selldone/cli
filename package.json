@@ -1,5 +1,5 @@
 {
-  "name": "Selldone-CLI",
+  "name": "selldone-cli",
   "version": "1.0.0",
   "description": "It's for ecommerce developers.Use this CLI to deploy your custom storefront layout to Selldone.",
   "main": "deploy.mjs",
