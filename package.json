@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "It's for ecommerce developers.Use this CLI to deploy your custom storefront layout to Selldone.",
   "main": "deploy.mjs",
+  "type": "module",
   "scripts": {
-    "deploy": "node deploy.mjs"
+    "deploy": "node main.mjs"
   },
   "bin": {
-    "selldone deploy": "./deploy.mjs"
+    "sd": "main.mjs"
   },
   "keywords": [
     "e-commerce",
@@ -29,16 +30,13 @@
   "license": "ISC",
   "dependencies": {
     "archiver": "^6.0.1",
-    "child_process": "^1.0.2",
-    "crypto": "^1.0.1",
     "express": "^4.18.2",
     "form-data": "^4.0.0",
-    "fs": "^0.0.1-security",
+    "inquirer": "^9.2.12",
     "node-fetch": "^3.3.2",
     "open": "^9.1.0",
-    "os": "^0.1.2",
-    "path": "^0.12.7",
-    "readline": "^1.3.0"
+    "readline": "^1.3.0",
+    "yargs": "^17.7.2"
   },
   "engines": {
     "node": ">=14.0.0"

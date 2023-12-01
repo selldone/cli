@@ -22,14 +22,23 @@ Before using `deploy.mjs`, ensure that you have Node.js installed on your system
 
 ### Installation
 
-To use `deploy.mjs`, clone or download it to your local machine. No additional installation steps are necessary, as it is a standalone script.
+
+```shell
+npm install -g selldone-cli
+```
+
+### Local instalation (Dev mode)
+```shell
+npm uninstall -g selldone-cli
+npm install -g .
+```
 
 ### Usage
 
 To run `deploy.mjs`, navigate to the directory containing the script and execute it using Node.js:
 
 ```bash
-selldone deploy
+sd deploy
 ```
 
 The script will guide you through the process of deploying your custom Layout. Follow the prompts to authenticate, build, and upload your project to Selldone.
