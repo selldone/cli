@@ -47,10 +47,18 @@ export class Upload {
 
         const totalSize = fs.statSync(Config.BUILD_ZIP_PATH).size; // Get total size of the file
 
+
         // create a new progress bar instance and use shades_classic theme
-        const bar1 = new cliProgress.SingleBar({ barIncompleteChar: '.'}, cliProgress.Presets.rect);
+        const bar1 = new cliProgress.SingleBar({barIncompleteChar: '.'}, cliProgress.Presets.rect);
         // start the progress bar with a total value of 200 and start value of 0
         bar1.start(totalSize, 0);
+
+        let uploaded = 0;
+        formData.on('data', chunk => {
+            uploaded += chunk.length;
+            // update the current value in your application..
+            bar1.update(uploaded);
+        });
 
         try {
             const response = await axios.post(Config.SELLDONE_API_UPLOAD_URL, formData, {
@@ -58,10 +66,6 @@ export class Upload {
                     'Authorization': `Bearer ${Authentication.ACCESS_TOKEN}`,
                     'Accept': 'application/json',
                     ...formData.getHeaders() // Include the multipart headers
-                },
-                onUploadProgress: progressEvent => {
-                    // update the current value in your application..
-                    bar1.update(progressEvent.loaded);
                 }
             });
 
@@ -93,6 +97,8 @@ export class Upload {
                 console.log("✨  Your project is now live on Selldone.");
                 console.log(`Please visit: ${Config.SELLDONE_SERVICE_URL}/developer/layouts/${data.deploy?.layout_id}`);
                 console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+                console.log('');
+                console.log('');
             }
 
 
