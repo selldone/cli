@@ -52,7 +52,7 @@ export default class VueBuild {
 
 
         // TEST!
-         if(Config.DEBUG_MODE){
+         if(Config.DEBUG_MODE && false){
              console.log('🚧  Debug mode enabled. Skipping build.');
              await Zip.makeZipFile();
              return;

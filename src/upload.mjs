@@ -17,8 +17,7 @@ import {Authentication} from "./authentication.mjs";
 import fs from "fs";
 import FormData from 'form-data';
 import cliProgress from "cli-progress";
-import axios from "axios";
-
+import fetch from 'node-fetch';
 
 export class Upload {
     // ━━━━━━━━━━━━━━━━━━━━━━ Build & Upload to Selldone ━━━━━━━━━━━━━━━━━━━━━━
@@ -61,10 +60,13 @@ export class Upload {
         });
 
         try {
-            const response = await axios.post(Config.SELLDONE_API_UPLOAD_URL, formData, {
+            const response = await fetch(Config.SELLDONE_API_UPLOAD_URL, {
+                method: 'POST',
+                body: formData,
                 headers: {
                     'Authorization': `Bearer ${Authentication.ACCESS_TOKEN}`,
                     'Accept': 'application/json',
+
                     ...formData.getHeaders() // Include the multipart headers
                 }
             });
@@ -72,18 +74,10 @@ export class Upload {
             // stop the progress bar
             bar1.stop();
 
-
-            const data = response.data;
-
-            if (response.status !== 200) {
-                throw `🛑 HTTP error! status: ${response.status}  ${await response.data}`;
-            }
+            const data = await response.json();
 
 
-            if (data.error) {
-                console.error('Error:', data);
-                throw `🛑 Failed to upload file. Reasone: ${data.error_msg}`;
-            } else {
+            if (data?.success) {
                 console.log('✅  Upload successful.', `${data.message}`);
                 console.log('');
                 console.table('▼ Layout');
@@ -99,13 +93,14 @@ export class Upload {
                 console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
                 console.log('');
                 console.log('');
+            } else {
+                console.error('Error:', data);
+                throw `🛑 Failed to upload file. Status Code: ${response.status}`;
             }
-
 
         } catch (error) {
             console.error('❌  Upload error:', error);
         }
-
 
     }
 }
