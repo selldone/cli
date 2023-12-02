@@ -9,6 +9,10 @@ storefront layouts for Selldone users. Selldone, accessible at [Selldone.com](ht
 comprehensive e-commerce platform that empowers businesses and individual entrepreneurs to create, manage, and grow
 their online presence effortlessly.
 
+
+![Selldone Business OS Dev Kit](_docs/images/dev-kit.jpg)
+
+
 ### What is Selldone?
 
 Selldone is an innovative e-commerce solution that offers a wide range of features to facilitate online store
@@ -56,6 +60,11 @@ selldone
 
 ![Run selldone cli screenshot](_docs/images/run-selldone-cli.png)
 
+
+#### Success deploy message
+
+![Success deploy message](_docs/images/success-deploy-message.png)
+
 The script will guide you through the process of deploying your custom Layout. Follow the prompts to authenticate,
 build, and upload your project to Selldone.
 
@@ -94,4 +103,4 @@ Enjoy building and deploying your custom storefronts with Selldone!
 For more information about customizing your Selldone storefront, visit
 the [Full Storefront Project](https://github.com/selldone/storefront).
 
-Happy coding! 🚀
+Happy coding! 🎊
