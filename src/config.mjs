@@ -29,11 +29,11 @@ export default class Config {
     static REDIRECT_URI = `http://localhost:${Config.LOCAL_AUTH_SERVER_PORT}/callback`;
 
     static SELLDONE_SERVICE_URL = "https://selldone.com";
-    static SELLDONE_API_UPLOAD_URL = "http://api.selldone.com/developer/layouts/deploy";
-    static SELLDONE_2FA_CHECK_URL = "http://api.selldone.com/security/2fa/check";
-    static SELLDONE_2FA_VERIFY_URL = "http://api.selldone.com/auth/2fa";
-    static SELLDONE_API_CHECK_VERSION_URL = "http://api.selldone.com/developer/layouts/check-version";
-    static SELLDONE_API_GET_LAYOUTS_URL = "http://api.selldone.com/developer/layouts";
+    static SELLDONE_API_UPLOAD_URL = "https://api.selldone.com/developer/layouts/deploy";
+    static SELLDONE_2FA_CHECK_URL = "https://api.selldone.com/security/2fa/check";
+    static SELLDONE_2FA_VERIFY_URL = "https://api.selldone.com/auth/2fa";
+    static SELLDONE_API_CHECK_VERSION_URL = "https://api.selldone.com/developer/layouts/check-version";
+    static SELLDONE_API_GET_LAYOUTS_URL = "https://api.selldone.com/developer/layouts";
 
     static InitDebugMode() {
         Config.DEBUG_MODE = true;

@@ -88,7 +88,10 @@ async function runCommand(command) {
             process.exit(0);
             break;
         case COMMAND_LOGIN:
-            await Authentication.auth()
+            await Authentication.auth(()=>{
+                console.log("🔐  You are logged in as: 🦋 "+Authentication.USER.name+" ("+Authentication.USER.email+")");
+                process.exit(0);
+            })
             break;
         case COMMAND_SHOW_LAYOUTS:
             await ApiLayoutsList.getLayoutsList()

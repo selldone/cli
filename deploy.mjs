@@ -28,10 +28,17 @@ console.log("");
 export default async function () {
     if (Authentication.getAccessToken()) {
         console.log('✅  You are already authenticated.');
-        await VueBuild.execBuild()
+
+        await Authentication.check2FAStatus(async () => {
+            await VueBuild.execBuild()
+        })
+
     } else {
         Authentication.auth(async () => {
-            await VueBuild.execBuild()
+
+                await VueBuild.execBuild()
+
+
         })
     }
 }

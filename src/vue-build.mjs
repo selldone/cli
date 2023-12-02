@@ -25,9 +25,7 @@ export default class VueBuild {
      * @return {Promise<void>}
      */
     static async execBuild() {
-        await Authentication.check2FAStatus(async () => {
-            await VueBuild.execBuild()
-        })
+
         if (!Authentication.USER) return; // User should be logged in
 
         if (!Authentication.IsPremium()) {

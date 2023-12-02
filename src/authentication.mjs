@@ -21,6 +21,8 @@ import express from "express";
 import crypto from "crypto";
 import Config from "./config.mjs";
 import {Server} from "./server.mjs";
+import VueBuild from "./vue-build.mjs";
+import readline from "readline";
 
 
 // ━━━━━━━━━━━━━━━━━━━━━━ Keep access token ━━━━━━━━━━━━━━━━━━━━━━
@@ -33,8 +35,8 @@ if (!fs.existsSync(secureDirectoryPath)) {
     fs.mkdirSync(secureDirectoryPath, {mode: 0o700}); // Only the owner can access
 }
 
-function GetTokenFilePath(){
-    const tokenFileName = '.persist'+(Config.DEBUG_MODE?'-debug':'');
+function GetTokenFilePath() {
+    const tokenFileName = '.persist' + (Config.DEBUG_MODE ? '-debug' : '');
     return path.join(secureDirectoryPath, tokenFileName);
 }
 
@@ -79,7 +81,7 @@ export class Authentication {
     static getAccessToken() {
 
         if (fs.existsSync(GetTokenFilePath())) {
-            return this.ACCESS_TOKEN= fs.readFileSync(GetTokenFilePath(), 'utf8');
+            return this.ACCESS_TOKEN = fs.readFileSync(GetTokenFilePath(), 'utf8');
         }
         return null;
     }
@@ -125,11 +127,19 @@ export class Authentication {
                     const data = await response.json();
 
                     if (data.access_token) {
-                        console.log('✅  Authentication successful.');
-                        Authentication.setAccessToken(data.access_token)
-                        res.send('Authentication successful, you can close this window.');
-                        if(callback)
-                        callback()
+
+                        // Temporary set access token (Used in 2FA check)
+                        this.ACCESS_TOKEN = data.access_token;
+
+                        await Authentication.check2FAStatus(async () => {
+                            console.log('✅  Authentication successful.');
+                            Authentication.setAccessToken(data.access_token)
+                            res.send('Authentication successful, you can close this window.');
+                            if (callback)
+                                await callback()
+                        })
+
+
                     } else {
                         console.error('❌  Error getting access token:', data);
                         res.send(data);
@@ -154,13 +164,12 @@ export class Authentication {
     }
 
 
-
     /**
      * Check 2FA status.
      * @return {Promise<void>}
      */
 
-  static  async  check2FAStatus(callback) {
+    static async check2FAStatus(callback) {
         console.log('▶  Checking 2FA status...');
 
         try {
@@ -173,9 +182,10 @@ export class Authentication {
 
             if (data.user) {
                 this.USER = data.user;
+                if(callback)await callback();
                 // Everything is ok!
             } else {
-                await this.verify2FACode();// Request user enter 2fa code
+                await this.verify2FACode(callback);// Request user enter 2fa code
             }
         } catch (data) {
             console.error('❌  Error:', data);
@@ -188,7 +198,7 @@ export class Authentication {
      * Verify 2FA code.
      * @return {Promise<void>}
      */
-    static verify2FACode() {
+    static verify2FACode(callback) {
 
         async function send3FACode(twoFactorCode) {
 
@@ -209,8 +219,10 @@ export class Authentication {
             if (response.ok) {
 
                 if (data.success) {
-                    console.log('✅ 2FA verification successful.');
+                    console.log('✅  2FA verification successful.');
                     Authentication.USER = data.user;
+                    if (callback)
+                        await callback()
 
                 } else {
                     console.log('⚠️ 2FA verification failed.');
@@ -241,7 +253,6 @@ export class Authentication {
     }
 
 
-
     /**
      * Logout user.
      * @return {boolean}
@@ -254,7 +265,7 @@ export class Authentication {
 
     // ━━━━━━━━━━━━━━━━━━━━━━ Helpers ━━━━━━━━━━━━━━━━━━━━━━
 
-    static IsPremium(){
+    static IsPremium() {
         return !!Authentication.USER?.premium
     }
 }
