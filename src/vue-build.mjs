@@ -52,7 +52,7 @@ export default class VueBuild {
 
 
         // TEST!
-        await Zip.makeZipFile();  return;
+        // await Zip.makeZipFile();  return;
 
 
         try {
