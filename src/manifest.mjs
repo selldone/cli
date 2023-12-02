@@ -51,11 +51,11 @@ export default class Manifest{
             } else if (!manifest.package || manifest.package.lenght < 12 || manifest.package.lenght > 64) {
                 console.error("❌  Error: The package field in the manifest.json must be between 12 and 64 characters. It's the unique identifier for your layout.");
                 process.exit();
-            } else if (!/^[a-zA-Z0-9\-._]+$/.test(manifest.package)) {
-                console.error("❌  Error: The package field in the manifest.json must be alphanumeric and can contain dashes, dots, or underscores.");
+            } else if (!/^[a-z0-9\-.]+$/.test(manifest.package)) {
+                console.error(`❌  Error: The package field [${manifest.package}] in the manifest.json must be lowercase alphanumeric and can contain dashes, or dots.`);
                 process.exit();
-            } else if (!/^[a-zA-Z0-9\-._]+$/.test(manifest.version)) {
-                console.error("❌  Error: The version field in the manifest.json must be alphanumeric and can contain dashes, dots, or underscores.");
+            } else if (!/^[a-z0-9\-.]+$/.test(manifest.version)) {
+                console.error(`❌  Error: The version field [${manifest.version}] in the manifest.json must be lowercase alphanumeric and can contain dashes, or dots.`);
                 process.exit();
             } else {
                 await Api.checkVersion(manifest.package, manifest.version);

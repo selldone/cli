@@ -16,10 +16,8 @@ import Config from "./config.mjs";
 import {Authentication} from "./authentication.mjs";
 import fs from "fs";
 import FormData from 'form-data';
-import fetch from 'node-fetch';
-
-
-
+import cliProgress from "cli-progress";
+import axios from "axios";
 
 
 export class Upload {
@@ -47,26 +45,41 @@ export class Upload {
         formData.append('file', fs.createReadStream(Config.BUILD_ZIP_PATH));
         formData.append('manifest', fs.readFileSync(Config.MANIFEST_PATH, 'utf8'));
 
+        const totalSize = fs.statSync(Config.BUILD_ZIP_PATH).size; // Get total size of the file
+
+        // create a new progress bar instance and use shades_classic theme
+        const bar1 = new cliProgress.SingleBar({ barIncompleteChar: '.'}, cliProgress.Presets.rect);
+        // start the progress bar with a total value of 200 and start value of 0
+        bar1.start(totalSize, 0);
+
         try {
-            const response = await fetch(Config.SELLDONE_API_UPLOAD_URL, {
-                method: 'POST',
-                body: formData,
+            const response = await axios.post(Config.SELLDONE_API_UPLOAD_URL, formData, {
                 headers: {
                     'Authorization': `Bearer ${Authentication.ACCESS_TOKEN}`,
                     'Accept': 'application/json',
-
                     ...formData.getHeaders() // Include the multipart headers
+                },
+                onUploadProgress: progressEvent => {
+                    // update the current value in your application..
+                    bar1.update(progressEvent.loaded);
                 }
             });
 
-            if (!response.ok) {
-                throw `🛑 HTTP error! status: ${response.status}  ${await response.text()}`;
+            // stop the progress bar
+            bar1.stop();
+
+
+            const data = response.data;
+
+            if (response.status !== 200) {
+                throw `🛑 HTTP error! status: ${response.status}  ${await response.data}`;
             }
 
-            const data = await response.json();
 
-
-            if (data?.success) {
+            if (data.error) {
+                console.error('Error:', data);
+                throw `🛑 Failed to upload file. Reasone: ${data.error_msg}`;
+            } else {
                 console.log('✅  Upload successful.', `${data.message}`);
                 console.log('');
                 console.table('▼ Layout');
@@ -80,9 +93,6 @@ export class Upload {
                 console.log("✨  Your project is now live on Selldone.");
                 console.log(`Please visit: ${Config.SELLDONE_SERVICE_URL}/developer/layouts/${data.deploy?.layout_id}`);
                 console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-            } else {
-                console.error('Error:', data);
-                throw `🛑 Failed to upload file. Status Code: ${response.status}`;
             }
 
 
