@@ -26,7 +26,7 @@ export class ApiLayoutsList {
             if (data.error) {
                 throw data.error_msg
             } else {
-                console.table(data.layouts);
+                console.tableWithReadableHeaders(data.layouts);
 
             }
         } catch (data) {

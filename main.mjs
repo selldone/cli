@@ -21,6 +21,7 @@ import inquirer from 'inquirer';
 import Config from "./src/config.mjs";
 import {Authentication} from "./src/authentication.mjs";
 import {ApiLayoutsList} from "./src/apis/api-layouts-list.mjs";
+import './src/console/console-extend.mjs';
 
 
 const COMMAND_DEPLOY = 'deploy';
@@ -121,12 +122,15 @@ const argv = yargs(hideBin(process.argv))
 let DEBUG = argv.debug;
 if (DEBUG) {
     Config.InitDebugMode();
-    console.log("DEBUG MODE ENABLED!\n");
+    console.log("🐞  DEBUG MODE ENABLED!\n");
 }
 
 
 // If no command provided, show the prompt
 if (argv._ && !argv._.length) {
+
+
+
     const commandToRun = await promptForCommand();
     await runCommand(commandToRun);
 }

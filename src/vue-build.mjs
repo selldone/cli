@@ -53,7 +53,8 @@ export default class VueBuild {
         await Manifest.checkManifest()
 
 
-        // TEST! await Zip.makeZipFile();  return;
+        // TEST!
+        await Zip.makeZipFile();  return;
 
 
         try {

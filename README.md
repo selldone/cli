@@ -66,6 +66,15 @@ build, and upload your project to Selldone.
 - **Upload**: Seamlessly upload your zip file to the Selldone platform.
 - **Version Control**: Ensure that each version of your Layout is unique and properly managed.
 
+
+## Publish Package
+
+URL: https://www.npmjs.com/package/selldone-cli
+
+```shell
+npm publish
+```
+
 ## Contributing
 
 Contributions to `Selldone CLI` are welcome! If you have suggestions, improvements, or bug fixes, feel free to fork the

@@ -15,6 +15,12 @@
 import Config from "./config.mjs";
 import {Authentication} from "./authentication.mjs";
 import fs from "fs";
+import FormData from 'form-data';
+import fetch from 'node-fetch';
+
+
+
+
 
 export class Upload {
     // ━━━━━━━━━━━━━━━━━━━━━━ Build & Upload to Selldone ━━━━━━━━━━━━━━━━━━━━━━
@@ -27,17 +33,28 @@ export class Upload {
 
 
         console.log('▶  Uploading ZIP file...');
+
+
+        // Check if the file exists
+        if (!fs.existsSync(Config.BUILD_ZIP_PATH)) {
+            throw `❌  Error: ${Config.BUILD_ZIP_PATH} does not exist.`
+        }
+        if (!fs.existsSync(Config.MANIFEST_PATH)) {
+            throw `❌  Error: ${Config.MANIFEST_PATH} does not exist.`
+        }
+
         const formData = new FormData();
-        formData.append('file', fs.createReadStream('dist.zip'));
-        formData.append('manifest', fs.readFileSync('manifest.json', 'utf8'));
+        formData.append('file', fs.createReadStream(Config.BUILD_ZIP_PATH));
+        formData.append('manifest', fs.readFileSync(Config.MANIFEST_PATH, 'utf8'));
 
         try {
-            const response = await fetch(`${Config.SELLDONE_API_UPLOAD_URL}`, {
+            const response = await fetch(Config.SELLDONE_API_UPLOAD_URL, {
                 method: 'POST',
                 body: formData,
                 headers: {
                     'Authorization': `Bearer ${Authentication.ACCESS_TOKEN}`,
                     'Accept': 'application/json',
+
                     ...formData.getHeaders() // Include the multipart headers
                 }
             });
@@ -52,7 +69,10 @@ export class Upload {
             if (data?.success) {
                 console.log('✅  Upload successful.', `${data.message}`);
                 console.log('');
-                console.log(`Package: ${data.layout?.package} ┃ Version: ${data.deploy?.version} ┃ Live Path: ${data.deploy?.path}`);
+                console.table('▼ Layout');
+                console.tableWithReadableHeaders(data.layout);
+                console.table('▼ Deploy');
+                console.tableWithReadableHeaders(data.deploy);
                 console.log('');
 
                 console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");

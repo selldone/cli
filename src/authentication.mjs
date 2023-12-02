@@ -20,13 +20,11 @@ import open from "open";
 import express from "express";
 import crypto from "crypto";
 import Config from "./config.mjs";
-import VueBuild from "./vue_build.mjs";
 import {Server} from "./server.mjs";
 
 
 // ━━━━━━━━━━━━━━━━━━━━━━ Keep access token ━━━━━━━━━━━━━━━━━━━━━━
 
-const tokenFileName = '.persist';
 const secureDirectoryPath = path.join(os.homedir(), '.selldone-dev'); // Example: /home/user/.selldone-dev
 
 
@@ -34,8 +32,11 @@ const secureDirectoryPath = path.join(os.homedir(), '.selldone-dev'); // Example
 if (!fs.existsSync(secureDirectoryPath)) {
     fs.mkdirSync(secureDirectoryPath, {mode: 0o700}); // Only the owner can access
 }
-const tokenFilePath = path.join(secureDirectoryPath, tokenFileName);
 
+function GetTokenFilePath(){
+    const tokenFileName = '.persist'+(Config.DEBUG_MODE?'-debug':'');
+    return path.join(secureDirectoryPath, tokenFileName);
+}
 
 /**
  * Generate a random string for use in the OAuth2 PKCE flow.
@@ -68,7 +69,7 @@ export class Authentication {
     static setAccessToken(token) {
         if (!token) token = '';
         this.ACCESS_TOKEN = token;
-        fs.writeFileSync(tokenFilePath, token, {encoding: 'utf8', mode: 0o600});
+        fs.writeFileSync(GetTokenFilePath(), token, {encoding: 'utf8', mode: 0o600});
     }
 
     /**
@@ -76,8 +77,9 @@ export class Authentication {
      * @return {null|string}
      */
     static getAccessToken() {
-        if (fs.existsSync(tokenFilePath)) {
-            return this.ACCESS_TOKEN= fs.readFileSync(tokenFilePath, 'utf8');
+
+        if (fs.existsSync(GetTokenFilePath())) {
+            return this.ACCESS_TOKEN= fs.readFileSync(GetTokenFilePath(), 'utf8');
         }
         return null;
     }

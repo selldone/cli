@@ -15,6 +15,7 @@
 import {Api} from "./api.mjs";
 import readline from "readline";
 import fs from "fs";
+import Config from "./config.mjs";
 
 
 export default class Manifest{
@@ -24,7 +25,7 @@ export default class Manifest{
      */
     static async checkManifest() {
 
-        const manifestPath = './manifest.json'; // Path to the manifest.json file
+        const manifestPath = Config.MANIFEST_PATH; // Path to the manifest.json file
         // Check if the file exists
         if (!fs.existsSync(manifestPath)) {
             console.error('❌  Error: manifest.json does not exist.');

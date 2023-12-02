@@ -15,6 +15,7 @@
 import fs from "fs";
 import archiver from "archiver";
 import {Upload} from "./upload.mjs";
+import Config from "./config.mjs";
 
 export default class Zip{
     /**
@@ -23,7 +24,7 @@ export default class Zip{
      */
     static async makeZipFile() {
         console.log('▶  Creating ZIP file of the build output...');
-        const output = fs.createWriteStream('dist.zip');
+        const output = fs.createWriteStream(Config.BUILD_ZIP_PATH);
         const archive = archiver('zip', {
             zlib: {level: 9}
         });

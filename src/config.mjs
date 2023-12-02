@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2023. Selldone® Business OS™
  *
@@ -14,6 +13,17 @@
  */
 
 export default class Config {
+
+
+
+
+    static DEBUG_MODE = false;
+    static MANIFEST_PATH = './manifest.json';
+    static BUILD_ZIP_PATH = 'dist.zip';
+
+
+
+
     static CLIENT_ID = 6663;
     static LOCAL_AUTH_SERVER_PORT = 3777; // Port for the local server. Do not change!
     static REDIRECT_URI = `http://localhost:${Config.LOCAL_AUTH_SERVER_PORT}/callback`;
@@ -25,17 +35,19 @@ export default class Config {
     static SELLDONE_API_CHECK_VERSION_URL = "http://api.selldone.com/developer/layouts/check-version";
     static SELLDONE_API_GET_LAYOUTS_URL = "http://api.selldone.com/developer/layouts";
 
-    static InitDebugMode(){
-         Config.CLIENT_ID = 200;
-        Config. LOCAL_AUTH_SERVER_PORT = 3777; // Port for the local server. Do not change!
-        Config. REDIRECT_URI = `http://localhost:${Config.LOCAL_AUTH_SERVER_PORT}/callback`;
+    static InitDebugMode() {
+        Config.DEBUG_MODE = true;
 
-        Config. SELLDONE_SERVICE_URL = "http://127.0.0.1:9000";
-        Config. SELLDONE_API_UPLOAD_URL = "http://api.localhost:9000/developer/layouts/deploy";
-        Config. SELLDONE_2FA_CHECK_URL = "http://api.localhost:9000/security/2fa/check";
-        Config. SELLDONE_2FA_VERIFY_URL = "http://api.localhost:9000/auth/2fa";
-        Config. SELLDONE_API_CHECK_VERSION_URL = "http://api.localhost:9000/developer/layouts/check-version";
-        Config. SELLDONE_API_GET_LAYOUTS_URL = "http://api.localhost:9000/developer/layouts";
+        Config.CLIENT_ID = 200;
+        Config.LOCAL_AUTH_SERVER_PORT = 3777; // Port for the local server. Do not change!
+        Config.REDIRECT_URI = `http://localhost:${Config.LOCAL_AUTH_SERVER_PORT}/callback`;
+
+        Config.SELLDONE_SERVICE_URL = "http://127.0.0.1:9000";
+        Config.SELLDONE_API_UPLOAD_URL = "http://api.localhost:9000/developer/layouts/deploy";
+        Config.SELLDONE_2FA_CHECK_URL = "http://api.localhost:9000/security/2fa/check";
+        Config.SELLDONE_2FA_VERIFY_URL = "http://api.localhost:9000/auth/2fa";
+        Config.SELLDONE_API_CHECK_VERSION_URL = "http://api.localhost:9000/developer/layouts/check-version";
+        Config.SELLDONE_API_GET_LAYOUTS_URL = "http://api.localhost:9000/developer/layouts";
 
     }
 
