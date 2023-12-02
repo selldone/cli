@@ -20,25 +20,54 @@ import {hideBin} from 'yargs/helpers';
 import inquirer from 'inquirer';
 import Config from "./src/config.mjs";
 import {Authentication} from "./src/authentication.mjs";
+import {ApiLayoutsList} from "./src/apis/api-layouts-list.mjs";
 
 
 const COMMAND_DEPLOY = 'deploy';
+const COMMAND_LOGIN = 'login';
 const COMMAND_LOGOUT = 'logout';
+const COMMAND_SHOW_LAYOUTS = 'show:layouts';
 const COMMAND_EXIT = 'exit';
 
 async function promptForCommand() {
+
+    const IS_LOGIN = Authentication.getAccessToken();
+
+    function fix(text){
+        const _arr=text.split('|')
+  return _arr[0].padEnd(20)+(_arr.length>1?_arr[1]:'')
+    }
+
+
     const response = await inquirer.prompt([
         {
             type: 'list',
             name: 'commandToRun',
-            message: 'Please select a command:',
+            message: 'Please select an action:',
             choices: [
-                {value: COMMAND_DEPLOY, name: "Deploy | Build and upload your Vue storefront layout to selldone."},
-                ...(Authentication.getAccessToken() ? [{
-                    value: COMMAND_LOGOUT,
-                    name: "Logout | Remove access token from your computer."
-                }] : []),
-                {value: COMMAND_EXIT, name: "Exit"}],
+                {value: COMMAND_DEPLOY, name: fix("Deploy | Build and upload your Vue storefront layout.")},
+
+                ...(IS_LOGIN ?
+                    // --------- Login User ---------
+                    [
+
+                        {value: COMMAND_SHOW_LAYOUTS, name: fix("Layouts | Show all layouts in your account.")},
+
+                        {
+                            value: COMMAND_LOGOUT,
+                            name: fix("Logout | Remove access token from your computer.")
+                        },
+
+
+                    ] :
+                    // --------- Guest ---------
+                    [
+                        {value: COMMAND_LOGIN, name: fix("Login | Login to your Selldone account.")}
+
+                    ]),
+
+                {value: COMMAND_EXIT, name: fix("Exit")}
+            ],
             default: COMMAND_DEPLOY
         }
     ]);
@@ -57,6 +86,13 @@ async function runCommand(command) {
             Authentication.logout()
             process.exit(0);
             break;
+        case COMMAND_LOGIN:
+            await Authentication.auth()
+            break;
+        case COMMAND_SHOW_LAYOUTS:
+            await ApiLayoutsList.getLayoutsList()
+            break;
+
         case COMMAND_EXIT:
             process.exit(0);
             break;

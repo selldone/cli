@@ -88,7 +88,7 @@ export class Authentication {
     /**
      * Start OAuth2 Authentication Process
      */
-    static auth() {
+    static auth(callback) {
 
         // Step 1: Start OAuth2 Authentication Process
         console.log('▶  Starting OAuth2 Authentication...');
@@ -126,7 +126,8 @@ export class Authentication {
                         console.log('✅  Authentication successful.');
                         Authentication.setAccessToken(data.access_token)
                         res.send('Authentication successful, you can close this window.');
-                        await VueBuild.execBuild()
+                        if(callback)
+                        callback()
                     } else {
                         console.error('❌  Error getting access token:', data);
                         res.send(data);
@@ -157,7 +158,7 @@ export class Authentication {
      * @return {Promise<void>}
      */
 
-  static  async  check2FAStatus() {
+  static  async  check2FAStatus(callback) {
         console.log('▶  Checking 2FA status...');
 
         try {
@@ -177,7 +178,7 @@ export class Authentication {
         } catch (data) {
             console.error('❌  Error:', data);
             this.logout();
-            Authentication.auth(); //Request login again!
+            Authentication.auth(callback); //Request login again!
         }
     }
 

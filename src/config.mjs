@@ -23,6 +23,7 @@ export default class Config {
     static SELLDONE_2FA_CHECK_URL = "http://api.selldone.com/security/2fa/check";
     static SELLDONE_2FA_VERIFY_URL = "http://api.selldone.com/auth/2fa";
     static SELLDONE_API_CHECK_VERSION_URL = "http://api.selldone.com/developer/layouts/check-version";
+    static SELLDONE_API_GET_LAYOUTS_URL = "http://api.selldone.com/developer/layouts";
 
     static InitDebugMode(){
          Config.CLIENT_ID = 200;
@@ -34,6 +35,8 @@ export default class Config {
         Config. SELLDONE_2FA_CHECK_URL = "http://api.localhost:9000/security/2fa/check";
         Config. SELLDONE_2FA_VERIFY_URL = "http://api.localhost:9000/auth/2fa";
         Config. SELLDONE_API_CHECK_VERSION_URL = "http://api.localhost:9000/developer/layouts/check-version";
+        Config. SELLDONE_API_GET_LAYOUTS_URL = "http://api.localhost:9000/developer/layouts";
+
     }
 
 }

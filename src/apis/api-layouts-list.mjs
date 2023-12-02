@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /*
  * Copyright (c) 2023. Selldone® Business OS™
  *
@@ -14,39 +12,27 @@
  * Tread carefully, for you're treading on dreams.
  */
 
+import Config from "../config.mjs";
+import {Server} from "../server.mjs";
+
+export class ApiLayoutsList {
+
+    static async getLayoutsList() {
 
 
-import {Authentication} from "./src/authentication.mjs";
-import VueBuild from "./src/vue_build.mjs";
+        console.log('▶  Fetch layouts list...');
+        try {
+            const data = await Server.GetRequest(Config.SELLDONE_API_GET_LAYOUTS_URL);
+            if (data.error) {
+                throw data.error_msg
+            } else {
+                console.table(data.layouts);
 
-console.log("");
-console.log("✨  Start building Selldone® Business OS™ Storefront Layout...");
-console.log("");
+            }
+        } catch (data) {
+            console.error('❌  Error:', data);
+            process.exit()
+        }
 
-
-
-export default async function () {
-    if (Authentication.getAccessToken()) {
-        console.log('✅  You are already authenticated.');
-        await VueBuild.execBuild()
-    } else {
-        Authentication.auth(async () => {
-            await VueBuild.execBuild()
-        })
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
