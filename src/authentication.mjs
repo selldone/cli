@@ -21,8 +21,8 @@ import express from "express";
 import crypto from "crypto";
 import Config from "./config.mjs";
 import {Server} from "./server.mjs";
-import VueBuild from "./vue-build.mjs";
 import readline from "readline";
+import {Html} from "./html/Html.mjs";
 
 
 // ━━━━━━━━━━━━━━━━━━━━━━ Keep access token ━━━━━━━━━━━━━━━━━━━━━━
@@ -131,10 +131,12 @@ export class Authentication {
                         // Temporary set access token (Used in 2FA check)
                         this.ACCESS_TOKEN = data.access_token;
 
+
                         await Authentication.check2FAStatus(async () => {
+                            res.send( Html.HtmlOut('Authentication successful, you can close this window.','#009688'));
+
                             console.log('✅  Authentication successful.');
                             Authentication.setAccessToken(data.access_token)
-                            res.send('Authentication successful, you can close this window.');
                             if (callback)
                                 await callback()
                         })
@@ -142,16 +144,19 @@ export class Authentication {
 
                     } else {
                         console.error('❌  Error getting access token:', data);
-                        res.send(data);
-                        res.send('Failed to obtain access token.');
+                        res.send( Html.HtmlOut(`Failed to obtain access token. ${data}`,'#D32F2F'));
+                        process.exit(0);
+
                     }
                 } catch (error) {
                     console.error('❌  Error:', error);
-                    res.send('An error occurred.');
+                    res.send( Html.HtmlOut(`An error occurred. ${error.message}`,'#D32F2F'));
+                    process.exit(0);
                 }
             } else {
                 console.error('❌  No code received in the callback.');
-                res.send('Authentication failed - no code received.');
+                res.send( Html.HtmlOut('Authentication failed - no code received.','#D32F2F'));
+                process.exit(0);
             }
         });
 
@@ -182,7 +187,7 @@ export class Authentication {
 
             if (data.user) {
                 this.USER = data.user;
-                if(callback)await callback();
+                if (callback) await callback();
                 // Everything is ok!
             } else {
                 await this.verify2FACode(callback);// Request user enter 2fa code
@@ -244,8 +249,8 @@ export class Authentication {
             if (twoFactorCode.length === 6 && /^\d+$/.test(twoFactorCode)) {
                 await send3FACode(twoFactorCode);
             } else {
-                console.error('❌  Invalid code. Please enter a 6-digit number.');
                 rl.close();
+                throw '❌  Invalid code. Please enter a 6-digit number.';
             }
         });
 
