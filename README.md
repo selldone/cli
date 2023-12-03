@@ -1,3 +1,6 @@
+[![npm version](https://img.shields.io/npm/v/selldone-cli.svg)](https://www.npmjs.com/package/selldone-cli)
+![License](https://img.shields.io/github/license/selldone/cli.svg)
+
 # Selldone CLI
 
 🛍️ Go to the [**Full Storefront Project ▶**](https://github.com/selldone/storefront)
