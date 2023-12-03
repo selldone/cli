@@ -24,10 +24,10 @@ export class ApiLayoutsList {
         try {
             const data = await Server.GetRequest(Config.SELLDONE_API_GET_LAYOUTS_URL);
             if (data.error) {
-                throw data.error_msg
+                console.error('❌  Error:', data.error_msg);
+                process.exit()
             } else {
                 console.tableWithReadableHeaders(data.layouts,['package','name','verified_at','penalty_at','version_stable','version_beta','created_at']);
-
             }
         } catch (data) {
             console.error('❌  Error:', data);
