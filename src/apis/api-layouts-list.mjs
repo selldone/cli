@@ -26,7 +26,7 @@ export class ApiLayoutsList {
             if (data.error) {
                 throw data.error_msg
             } else {
-                console.tableWithReadableHeaders(data.layouts);
+                console.tableWithReadableHeaders(data.layouts,['package','name','verified_at','penalty_at','version_stable','version_beta','created_at']);
 
             }
         } catch (data) {

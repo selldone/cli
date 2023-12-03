@@ -19,9 +19,6 @@
 import {Authentication} from "./src/authentication.mjs";
 import VueBuild from "./src/vue-build.mjs";
 
-console.log("");
-console.log("✨  Start building Selldone® Business OS™ Storefront Layout...");
-console.log("");
 
 
 

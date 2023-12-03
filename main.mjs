@@ -30,6 +30,8 @@ const COMMAND_LOGOUT = 'logout';
 const COMMAND_SHOW_LAYOUTS = 'show:layouts';
 const COMMAND_EXIT = 'exit';
 
+const COMMAND_CREATE_NEW_PROJECT = 'project:new';
+
 async function promptForCommand() {
 
     const IS_LOGIN = Authentication.getAccessToken();
@@ -46,7 +48,11 @@ async function promptForCommand() {
             name: 'commandToRun',
             message: 'Please select an action:',
             choices: [
+                {value: COMMAND_CREATE_NEW_PROJECT, name: fix("New | Creat new layout project.")},
+
                 {value: COMMAND_DEPLOY, name: fix("Deploy | Build and upload your Vue storefront layout.")},
+
+
 
                 ...(IS_LOGIN ?
                     // --------- Login User ---------
@@ -79,6 +85,13 @@ async function promptForCommand() {
 
 async function runCommand(command) {
     switch (command) {
+
+        case COMMAND_CREATE_NEW_PROJECT:
+            const _new_project = await import('./src/create-project/new-project.mjs');
+            await _new_project.run();
+            break;
+
+
         case COMMAND_DEPLOY:
             const deploy = await import('./deploy.mjs');
             await deploy.default();

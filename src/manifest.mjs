@@ -18,7 +18,7 @@ import fs from "fs";
 import Config from "./config.mjs";
 
 
-export default class Manifest{
+export default class Manifest {
     /**
      * Check manifest.json file.
      * @return {Promise<void>}
@@ -100,5 +100,22 @@ export default class Manifest{
         });
     }
 
+
+    static ReadManifestFile() {
+        const manifestPath = Config.MANIFEST_PATH; // Path to the manifest.json file
+        // Check if the file exists
+        if (!fs.existsSync(manifestPath)) {
+            throw '❌  Error: manifest.json does not exist.';
+        }
+
+        try {
+            // Read the file
+            const manifestData = fs.readFileSync(manifestPath, 'utf8');
+            // Parse the JSON
+            return  JSON.parse(manifestData);
+        } catch (error) {
+            throw `❌  Error reading or parsing manifest.json: ${error}`;
+        }
+    }
 
 }

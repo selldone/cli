@@ -18,6 +18,7 @@ import {execSync} from "child_process";
 import {Package} from "./package.mjs";
 import Manifest from "./manifest.mjs";
 import Zip from "./zip.mjs";
+import fs from "fs";
 
 export default class VueBuild {
     /**
@@ -52,11 +53,17 @@ export default class VueBuild {
 
 
         // TEST!
-         if(Config.DEBUG_MODE && false){
+         if(Config.DEBUG_MODE && fs.existsSync(Config.BUILD_ZIP_PATH) /*|| true*/){
              console.log('🚧  Debug mode enabled. Skipping build.');
              await Zip.makeZipFile();
              return;
          }
+
+
+        console.log("");
+        console.log("✨  Start building Selldone® Business OS™ Storefront Layout...");
+        console.log("");
+
 
 
         try {

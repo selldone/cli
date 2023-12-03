@@ -8,8 +8,8 @@ function toTitleCase(snakeStr) {
 }
 
 // Function to transform object keys
-function transformObjectKeys(obj) {
-    return Object.keys(obj).reduce((acc, key) => {
+function transformObjectKeys(obj,filter) {
+    return Object.keys(obj).filter(i=>!filter || filter.includes(i)).reduce((acc, key) => {
         const transformedKey = toTitleCase(key);
         acc[transformedKey] = obj[key];
         return acc;
@@ -17,13 +17,13 @@ function transformObjectKeys(obj) {
 }
 
 // Extend console
-console.tableWithReadableHeaders = (obj) => {
+console.tableWithReadableHeaders = (obj,filter) => {
     if (Array.isArray(obj)) {
         // Transform an array of objects
-        const transformedArray = obj.map(transformObjectKeys);
+        const transformedArray = obj.map(x=>transformObjectKeys(x,filter));
         console.table(transformedArray);
     } else {
         // Transform a single object
-        console.table([transformObjectKeys(obj)]);
+        console.table([transformObjectKeys(obj,filter)]);
     }
 };

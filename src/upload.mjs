@@ -74,7 +74,9 @@ export class Upload {
             // stop the progress bar
             bar1.stop();
 
-            const data = await response.json();
+           try{
+               const data = await response.json();
+
 
 
             if (data?.success) {
@@ -97,6 +99,11 @@ export class Upload {
                 console.error('Error:', data);
                 throw `🛑 Failed to upload file. Status Code: ${response.status}`;
             }
+
+           }catch (e) {
+               console.log('❌  Error in recived response', response.text());
+               throw e
+           }
 
         } catch (error) {
             console.error('❌  Upload error:', error);
