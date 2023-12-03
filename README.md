@@ -1,9 +1,15 @@
 [![npm version](https://img.shields.io/npm/v/selldone-cli.svg)](https://www.npmjs.com/package/selldone-cli)
 ![License](https://img.shields.io/github/license/selldone/cli.svg)
 
+
 # Selldone CLI
 
 🛍️ Go to the [**Full Storefront Project ▶**](https://github.com/selldone/storefront)
+
+**⚡ Update Selldone CLI everytime you start using it! We have been updating it frequently every day.**
+```shell
+npm update -g selldone-cli
+```
 
 ## Introduction
 
@@ -55,7 +61,7 @@ npm install -g .
 
 ### Usage
 
-To run `Selldone CLI`, navigate to the directory containing your Vue project and execute it:
+To run `selldone`, navigate to the directory containing your Vue project and execute it:
 
 ```bash
 selldone
