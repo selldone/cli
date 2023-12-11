@@ -12,6 +12,8 @@
  * Tread carefully, for you're treading on dreams.
  */
 
+import fs from "fs";
+
 export default class Config {
 
 
@@ -36,6 +38,10 @@ export default class Config {
     static SELLDONE_API_GET_LAYOUTS_URL = "https://api.selldone.com/developer/layouts";
 
     static InitDebugMode() {
+        if (fs.existsSync("./manifest-debug.json")) {
+            this.MANIFEST_PATH="./manifest-debug.json"
+            console.log("🚧  Debug mode enabled. Using manifest-debug.json");
+        }
         Config.DEBUG_MODE = true;
 
         Config.CLIENT_ID = 200;
