@@ -59,6 +59,7 @@ export class Upload {
             bar1.update(uploaded);
         });
 
+
         try {
             const response = await fetch(Config.SELLDONE_API_UPLOAD_URL, {
                 method: 'POST',
@@ -101,7 +102,7 @@ export class Upload {
             }
 
            }catch (e) {
-               console.log('❌  Error in recived response', response.text());
+               console.log('❌  Error in received response',await response.text());
                throw e
            }
 

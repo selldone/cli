@@ -53,17 +53,19 @@ export default class VueBuild {
 
 
         // TEST!
-         if(Config.DEBUG_MODE && fs.existsSync(Config.BUILD_ZIP_PATH) /*|| true*/){
-             console.log('🚧  Debug mode enabled. Skipping build.');
-             await Zip.makeZipFile();
-             return;
-         }
+        if (
+            Config.DEBUG_MODE && fs.existsSync(Config.BUILD_ZIP_PATH)
+            //  true
+        ) {
+            console.log('🚧  Debug mode enabled. Skipping build.');
+            await Zip.makeZipFile();
+            return;
+        }
 
 
         console.log("");
         console.log("✨  Start building Selldone® Business OS™ Storefront Layout...");
         console.log("");
-
 
 
         try {

@@ -135,7 +135,7 @@ const argv = yargs(hideBin(process.argv))
     })
     .parse();
 
-let DEBUG = argv.debug;
+let DEBUG = argv.debug; // Run:
 if (DEBUG) {
     Config.InitDebugMode();
     console.log("🐞  DEBUG MODE ENABLED!\n");
