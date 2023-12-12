@@ -61,6 +61,9 @@ npm install -g .
 
 ### Usage
 
+[![Watch the video](https://img.youtube.com/vi/UBwjxznQz0U/maxresdefault.jpg)](https://youtu.be/UBwjxznQz0U)
+
+
 To run `selldone`, navigate to the directory containing your Vue project and execute it:
 
 ```bash
